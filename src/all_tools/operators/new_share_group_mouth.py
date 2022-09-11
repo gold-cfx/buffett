@@ -1,12 +1,12 @@
-from src.base import AggS
+from src.base import Operator
 from src.constant import data_type
-from src.parse.parse_data import add_col_by_func, add_col_by_group_sum
-from src.register import require_plugin, register_plugin
+from src.parse.df import add_col_by_func, add_col_by_group_sum
+from src.register import require, register
 
 
-@require_plugin(data_type.new_share_total)
-@register_plugin
-class Agg(AggS):
+@require(data_type.new_share_total)
+@register
+class NewShareOp(Operator):
     data_type = data_type.new_share_group_mouth
     data_suffix = "csv"
 
@@ -15,7 +15,7 @@ class Agg(AggS):
         self.load_require()
 
     def get_data(self):
-        df = self.new_share_total.get_df()
+        df = self.new_share_total.get_ret()
         return df
 
     def run(self):

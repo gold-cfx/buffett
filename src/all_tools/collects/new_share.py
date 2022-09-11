@@ -4,8 +4,8 @@ from src import logger
 from src.all_tools.collects import pro
 from src.base import Data
 from src.constant import data_type
-from src.register import register_plugin
-from src.utils.utils import KeyMap
+from src.register import register
+from src.utils.key_map import KeyMap
 
 new_share_key_map = {
     "keys": ["ts_code", "sub_code", "name", "ipo_date", "issue_date", "amount",
@@ -20,7 +20,7 @@ def key_map():
     return KeyMap(new_share_key_map)
 
 
-@register_plugin
+@register
 class NewShareData(Data):
     data_type = data_type.new_share
     data_suffix = "csv"

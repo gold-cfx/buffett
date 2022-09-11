@@ -17,5 +17,5 @@ def add_col_by_group_sum(df: DataFrame, col1, *sum_col):
     agg_fun = {}
     for col in sum_col:
         agg_fun[col] = "sum"
-    df = df.groupby(col1).agg(agg_fun)
+    df = df.groupby(col1, as_index=False).agg(agg_fun)
     return df
