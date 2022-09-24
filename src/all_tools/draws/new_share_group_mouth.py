@@ -1,7 +1,7 @@
 import pandas as pd
 
 from src.base import Draw
-from src.constant import data_type
+from src.constant import data_type, constant
 from src.parse import matlab
 from src.register import require, register
 
@@ -23,7 +23,7 @@ class NewShareDrawPlot(Draw):
         df = self.new_share_group_mouth.get_ret()
         return df
 
-    def run(self):
+    def run1(self):
         df = self.get_data()
         df.sort_values(by=["ipo_mouth"])
         df['ipo_mouth'] = pd.to_datetime(df['ipo_mouth'], format="%Y%m")
@@ -33,6 +33,22 @@ class NewShareDrawPlot(Draw):
         }
         plt_plot = matlab.plot(df, "ipo_mouth", y_col_info, "mouth", "price", "mouth_total_price")
         return plt_plot
+
+    def run(self):
+        df = self.get_data()
+        df.sort_values(by=["ipo_mouth"])
+        df['ipo_mouth'] = pd.to_datetime(df['ipo_mouth'], format="%Y%m")
+        y_col_info1 = {
+            constant.draw_type: constant.plot,
+            "total_price": {"label": "total"},
+            "market_total_price": {"label": "market_total"}
+        }
+        y_col_info2 = {
+            constant.draw_type: constant.plot,
+            "mouth_count": {"label": "count"},
+        }
+        plt_bar = matlab.mix(df, "ipo_mouth", [y_col_info1, y_col_info2])
+        return plt_bar
 
 
 @require(data_type.new_share_group_mouth)
@@ -48,7 +64,7 @@ class NewShareDrawBar(NewShareDrawPlot):
         super().__init__(start_date, end_date)
         self.load_require()
 
-    def run(self):
+    def run1(self):
         df = self.get_data()
         df.sort_values(by=["ipo_mouth"])
         df['ipo_mouth'] = pd.to_datetime(df['ipo_mouth'], format="%Y%m")
@@ -57,4 +73,20 @@ class NewShareDrawBar(NewShareDrawPlot):
             "market_total_price": {"label": "market_total"}
         }
         plt_bar = matlab.bar(df, "ipo_mouth", y_col_info, "mouth", "price", "mouth_total_price")
+        return plt_bar
+
+    def run(self):
+        df = self.get_data()
+        df.sort_values(by=["ipo_mouth"])
+        df['ipo_mouth'] = pd.to_datetime(df['ipo_mouth'], format="%Y%m")
+        y_col_info1 = {
+            constant.draw_type: constant.bar,
+            "total_price": {"label": "total"},
+            "market_total_price": {"label": "market_total"}
+        }
+        y_col_info2 = {
+            constant.draw_type: constant.plot,
+            "mouth_count": {"label": "count"},
+        }
+        plt_bar = matlab.mix(df, "ipo_mouth", [y_col_info1, y_col_info2])
         return plt_bar

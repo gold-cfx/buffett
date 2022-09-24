@@ -1,6 +1,8 @@
+import pandas as pd
+
 from src.base import Operator
 from src.constant import data_type
-from src.parse.df import add_col_by_group_sum
+from src.parse.df import add_col_by_group_sum, add_col_by_group_undefined
 from src.register import require, register
 
 
@@ -18,7 +20,22 @@ class NewShareOp(Operator):
         df = self.new_share_total.get_ret()
         return df
 
-    def run(self):
+    def run1(self):
         df = self.get_data()
         df = add_col_by_group_sum(df, "ipo_date", "total_price", "market_total_price")
+        return df
+
+    def run(self):
+        df = self.get_data()
+
+        def my_agg(x):
+            names = {
+                'total_price': x['total_price'].sum(),
+                'market_total_price': x['market_total_price'].sum(),
+                'day_count': x['name'].count()
+            }
+
+            return pd.Series(names)
+
+        df = add_col_by_group_undefined(df, "ipo_date", my_agg)
         return df
