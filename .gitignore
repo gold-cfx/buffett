@@ -3,3 +3,6 @@ data/
 .csv
 .DS_Store
 __pycache__
+.env.local.sh
+env/
+*.pyc

@@ -1,5 +1,8 @@
 from src import project_dir
 
+import os
+ts_token = os.environ.get("ts_token")
+data_dir = f"{project_dir}/data"
 tools_dir = f"{project_dir}/src/all_tools"
 require_key = "_require"
 
