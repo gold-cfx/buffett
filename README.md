@@ -16,3 +16,6 @@ made some change
 ```
 make local
 ```
+## more detail
+- [财务指标分析](./doc/fund_info.md)
+- [个人财务报表分析](./doc/persion.md)

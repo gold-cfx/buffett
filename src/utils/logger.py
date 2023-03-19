@@ -1,5 +1,7 @@
 import logging
 
+from src.utils.utils import run_once
+
 
 class Logger:
 
@@ -16,6 +18,10 @@ class Logger:
 
     def __getattr__(self, item):
         return getattr(self.logger, item)
+
+    @run_once
+    def once(self, msg, *args, **kwargs):
+        return self.logger.warning(msg, *args, **kwargs)
 
     def debug(self, msg, *args, **kwargs):
         return self.logger.debug(msg, *args, **kwargs)

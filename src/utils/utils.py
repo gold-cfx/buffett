@@ -27,6 +27,15 @@ class MyDict:
         return item in self.dict
 
 
+def run_once(func):
+    def wrapper(*args, **kwargs):
+        if not wrapper.has_run:
+            wrapper.has_run = True
+            return func(*args, **kwargs)
+    wrapper.has_run = False
+    return wrapper
+
+
 def get_dir(data_dir):
     if not os.path.exists(data_dir):
         os.makedirs(data_dir, exist_ok=True)
